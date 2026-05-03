@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.3.20"
+    kotlin("jvm") version "2.2.20"
 }
 
 group = "org.example"
@@ -10,7 +10,9 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    implementation("com.github.haifengl:smile-core:3.0.2")
+    implementation("com.github.haifengl:smile-io:3.0.2")
+    implementation("com.github.haifengl:smile-kotlin:3.0.2")
 }
 
 kotlin {
