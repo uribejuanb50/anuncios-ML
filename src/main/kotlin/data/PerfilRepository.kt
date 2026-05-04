@@ -15,7 +15,7 @@ object PerfilRepository {
         //.drop(1) para ignorar el header del doc
         inputStream.bufferedReader().useLines { lineas ->
             lineas.drop(1).forEach { linea ->
-                val lista : List<String> = this.separarPorCaracter(linea, ",")
+                val lista : List<String> = linea.split(",")
 
                 val perfil = Factory.construirPerfil(lista)
 
@@ -23,11 +23,7 @@ object PerfilRepository {
             }
         }
 
-        return listaPerfiles
-    }
-
-    //devuelve una lista a partir de un string separado por un caracter
-    fun separarPorCaracter(strSepara : String, caracter : String) : List<String>{
-        return strSepara.split(caracter)
+        //lo devuelve inmutable
+        return listaPerfiles.toList()
     }
 }
