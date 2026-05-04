@@ -28,4 +28,10 @@ fun main() {
 
 
     PerfilRepository.leerCSV("/Advertisement.csv")
+
+    val valores = modeloSmile.prediccion
+
+    valores.forEach { valor ->
+        println("prediccion : $valor")
+    }
 }

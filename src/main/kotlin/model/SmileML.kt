@@ -17,6 +17,7 @@ class SmileML(nombreArchivo : String){
     val listaTest : List<PerfilNormalizado>
 
     val modelo : DecisionTree
+    val prediccion : IntArray
 
     //pasar de list a arraylist de objetos perfil normizado
     fun parsearListToArrayList(listaPerfilesNormalizados : List<PerfilNormalizado>) : ValoresModelo{
@@ -36,11 +37,14 @@ class SmileML(nombreArchivo : String){
         return valoresModelo.copy()
     }
 
+    //Generar el dataframea base de los features y el target para training
+    @JvmName("generarDataFrameMatrizyTargetParaTraining")
     fun generarDataFrame(valoresModelo : ValoresModelo) : DataFrame {
 
         val nFilas = valoresModelo.matriz.size
         val nColumnas = valoresModelo.matriz[0].size
 
+        //Trasponer matriz porque Smile trabaja con columnas no con filas
         val columnas = (0 until nColumnas).map{ colIndex ->
             val columna = DoubleArray(nFilas){ row->
                 valoresModelo.matriz[row][colIndex]
@@ -51,6 +55,23 @@ class SmileML(nombreArchivo : String){
         val target = IntVector.of("purchased", valoresModelo.arreglo)
 
         return DataFrame.of(*(columnas + target).toTypedArray())
+    }
+
+    //Generar el dataframe solo con la matriz para probar
+    @JvmName("generarDataFrameSoloConMatrizParaTest")
+    fun generarDataFrame(matrizX : Array<DoubleArray>) : DataFrame {
+        val nFilas = matrizX.size
+        val nColumnas = matrizX[0].size
+
+        //Trasponer matriz porque Smile trabaja con columnas no con filas
+        val columnas = (0 until nColumnas).map{ colIndex ->
+            val columna = DoubleArray(nFilas){ row->
+                matrizX[row][colIndex]
+            }
+            DoubleVector.of("feature_$colIndex", columna)
+        }
+
+        return DataFrame.of(*columnas.toTypedArray())
     }
 
     init{
@@ -71,6 +92,8 @@ class SmileML(nombreArchivo : String){
         val dataframe = generarDataFrame(valoresModelo)
         this.modelo = DecisionTree.fit(formula, dataframe)
 
-        println(formula)
+        val valoresModeloTest : ValoresModelo = parsearListToArrayList(this.listaTest)
+        val dataframeTest = generarDataFrame(valoresModeloTest)
+        this.prediccion = this.modelo.predict(dataframeTest)
     }
 }
