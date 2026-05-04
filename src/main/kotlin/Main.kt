@@ -1,6 +1,7 @@
 package org.example
 
 import org.example.data.PerfilRepository
+import kotlin.math.pow
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -17,6 +18,11 @@ fun main() {
         // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
         println("i = $i")
     }
+
+    val n : Double = 4.0
+
+    println("N = ${n.pow(2/3)}")
+
 
     PerfilRepository.leerCSV("/Advertisement.csv")
 }

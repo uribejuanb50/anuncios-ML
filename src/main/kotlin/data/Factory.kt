@@ -11,4 +11,8 @@ object Factory {
 
         return perfil
     }
+
+    fun construirPerfilNormalizado(age : Double, estimatedSalary : Double, purchased : Int ) : PerfilNormalizado {
+        return PerfilNormalizado(age, estimatedSalary, purchased)
+    }
 }
