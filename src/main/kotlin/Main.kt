@@ -40,4 +40,5 @@ fun main() {
 
     val cm : MatrizConfusion = MatrizConfusion(listaTest, valores)
     println(cm.strMC)
+    println("exactitud : ${cm.exactitud}")
 }
