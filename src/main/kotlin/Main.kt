@@ -1,6 +1,7 @@
 package org.example
 
 import org.example.data.PerfilRepository
+import org.example.model.SmileML
 import kotlin.math.pow
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -20,6 +21,8 @@ fun main() {
     }
 
     val n : Double = 4.0
+
+    val modeloSmile : SmileML = SmileML("/Advertisement.csv")
 
     println("N = ${n.pow(2/3)}")
 
