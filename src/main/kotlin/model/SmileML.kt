@@ -4,17 +4,13 @@ import org.example.data.PerfilNormalizado
 import org.example.data.Perfil
 import org.example.data.PerfilRepository
 import smile.data.DataFrame
+import java.time.Period
 
 //Usamos Smile para hacer arboles de decision
-class SmileML(
-    listaTraining : List<PerfilNormalizado>,
-    listaTest : List<PerfilNormalizado>
-){
+class SmileML(nombreArchivo : String){
 
-    fun SmileML(nombreArchivo : String){
-        val listaPerfiles :
-    }
-
+    val listaTraining : List<PerfilNormalizado>
+    val listaTest : List<PerfilNormalizado>
 
     //pasar de list a arraylist de objetos perfil normizado
     fun parsearListToArrayList(listaPerfilesNormalizados : List<PerfilNormalizado>) : ValoresModelo{
@@ -24,7 +20,7 @@ class SmileML(
             doubleArrayOf(perfil.age, perfil.estimatedSalary)
         }.toTypedArray()
 
-        //genera un arreglo de ints no de Intes en términos Java, más optimizado
+        //genera un arreglo de ints no de Ints en términos Java, más optimizado
         val y : IntArray = listaPerfilesNormalizados.map{ perfil ->
             perfil.purchased
         }.toIntArray()
@@ -32,5 +28,18 @@ class SmileML(
         val valoresModelo : ValoresModelo = ValoresModelo(x,y)
 
         return valoresModelo.copy()
+    }
+
+    init{
+        val listaPerfiles : List<Perfil> = PerfilRepository.leerCSV(nombreArchivo)
+        val resultado = DataProcessor.dividirConjunto(listaPerfiles, 0.75)
+
+        val listaTrainingCruda = resultado.first
+        val listaTestCruda = resultado.second
+
+        val estadisticas = DataProcessor.calcularEstadisticas(listaTrainingCruda)
+
+        this.listaTraining = DataProcessor.normalizar(listaTrainingCruda, estadisticas)
+        this.listaTest = DataProcessor.normalizar(listaTestCruda, estadisticas)
     }
 }
