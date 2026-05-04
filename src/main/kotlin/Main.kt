@@ -1,6 +1,7 @@
 package org.example
 
 import org.example.data.PerfilRepository
+import org.example.model.MatrizConfusion
 import org.example.model.SmileML
 import kotlin.math.pow
 
@@ -34,4 +35,9 @@ fun main() {
     valores.forEach { valor ->
         println("prediccion : $valor")
     }
+
+    val listaTest = modeloSmile.listaTest.map{ it.purchased }.toIntArray()
+
+    val cm : MatrizConfusion = MatrizConfusion(listaTest, valores)
+    println(cm.strMC)
 }
