@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     implementation("com.github.haifengl:smile-core:3.0.2")
-    implementation("com.github.haifengl:smile-io:3.0.2")
+    implementation("com.opencsv:opencsv:5.9")
     implementation("com.github.haifengl:smile-kotlin:3.0.2")
 }
 
